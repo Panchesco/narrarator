@@ -34,7 +34,7 @@
 
     <!-- JavaScripts -->
     <?php 
-    queue_js_file(array('jquery-accessibleMegaMenu', 'minimalist', 'globals'));
+    queue_js_file(array('jquery-accessibleMegaMenu', 'app', 'globals'));
     echo head_js(); 
     ?>
 </head>
