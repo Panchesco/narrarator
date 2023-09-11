@@ -28,6 +28,7 @@
   "homepage": "https://github.com/JayeshLab/bootstrap-5-sass-gulp-4-boilerplate#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.6",
+    "arizona-bootstrap": "github:az-digital/arizona-bootstrap",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2"
   },

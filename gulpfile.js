@@ -52,13 +52,13 @@ gulp.task('vendor:build', function() {
 
 // Copy Bootstrap SCSS(SASS) from node_modules to /css/sass/bootstrap
 gulp.task('bootstrap:scss', function() {
-  return gulp.src(['./sass/bootstrap/**/*.scss'])
+  return gulp.src(['./node_modules/bootstrap/scss/bootstrap.scss'])
     .pipe(gulp.dest('./sass/bootstrap'));
 });
 
 // Compile SCSS(SASS) files
 gulp.task('scss', gulp.series('bootstrap:scss', function compileScss() {
-  return gulp.src(['./css/sass/*.scss'])
+  return gulp.src(['./css/sass/style.scss'])
     .pipe(sass.sync({
       outputStyle: 'expanded'
     }).on('error', sass.logError))
@@ -68,10 +68,10 @@ gulp.task('scss', gulp.series('bootstrap:scss', function compileScss() {
 
 // Minify CSS
 gulp.task('css:minify', gulp.series('scss', function cssMinify() {
-  return gulp.src("./css/*.css")
+  return gulp.src("./css/style.css")
     .pipe(cleanCSS())
     .pipe(rename({
-      suffix: '.min'
+      suffix: ''
     }))
     .pipe(gulp.dest('./css'))
     .pipe(browserSync.stream());
@@ -106,11 +106,11 @@ gulp.task('dev', function browserDev(done) {
     proxy: "https://omeka.local",
 	https: true
   });
-  gulp.watch(['css/sass/*.scss','!css/sass/bootstrap/**'], gulp.series('css:minify', function cssBrowserReload (done) {
+  gulp.watch(['css/sass/*.scss'], gulp.series('css:minify', function cssBrowserReload (done) {
     browserSync.reload();
     done(); //Async callback for completion.
   }));
-  gulp.watch('src/js/app.js', gulp.series('js:minify', function jsBrowserReload (done) {
+  gulp.watch('javascripts/app.js', gulp.series('js:minify', function jsBrowserReload (done) {
     browserSync.reload();
     done();
   }));
@@ -122,10 +122,10 @@ gulp.task('dev', function browserDev(done) {
 gulp.task("build", gulp.series(gulp.parallel('css:minify', 'js:minify', 'vendor'), 'vendor:build', function copyAssets() {
   return gulp.src([
     '*.html',
-    "dist/imgs/**"
+    "imgs/**"
   ], { base: './'})
     .pipe(gulp.dest('dist'));
 }));
 
 // Default task
-gulp.task("default", gulp.series("clean", 'build', 'replaceHtmlBlock'));
+gulp.task("default", gulp.series("clean", 'build'));
